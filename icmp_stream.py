@@ -1,12 +1,9 @@
-from scapy.all import *
-import scapy
-from numpy import *
-from entropy import kolmogorov, shannon
+from ip_stream import *
 
 #We are assuming:
 #1) Its an IP packet
-#2) Its an UDP packet
-class ICMPStream:
+#2) Its an ICMP packet
+class ICMPStream(IPStream):
 	def __init__(self,pkt):
 		self.src = pkt.src 
 		self.dst = pkt.dst
@@ -19,28 +16,6 @@ class ICMPStream:
 		self.len = pkt.len
 		self.payload = str(pkt[ICMP].payload)
 		self.pkt = pkt
-
-        def unique_flags(self):
-	    seen = set()
-	    for item in self.flags:
-	        if item not in seen:
-	            seen.add( item )
-		    yield item
-
-	def avrg_len(self):
-		return self.len/self.pkt_count
-
-	def kolmogorov(self):
-		return round(kolmogorov(self.payload),4)
-
-	def shannon(self):
-		return round(shannon(self.payload),4)
-
-	def avrg_payload_len(self):
-		return len(self.payload)/self.pkt_count
-
-	def avrg_inter_arrival_time(self):
-		return round(mean(self.inter_arrival_times),4)
 
 	def add(self,pkt):
 		self.pkt_count += 1

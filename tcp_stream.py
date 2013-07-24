@@ -1,12 +1,9 @@
-from scapy.all import *
-import scapy
-from numpy import *
-from entropy import kolmogorov, shannon
+from ip_stream import *
 
 #We are assuming:
 #1) Its an IP packet
 #2) Its an TCP packet
-class TCPStream:
+class TCPStream(IPStream):
 	def __init__(self,pkt):
 		self.src = pkt.src 
 		self.dst = pkt.dst
@@ -27,21 +24,6 @@ class TCPStream:
 	        if item not in seen:
 	            seen.add( item )
 		    yield item
-
-	def avrg_len(self):
-		return self.len/self.pkt_count
-
-	def kolmogorov(self):
-		return round(kolmogorov(self.payload),4)
-
-	def shannon(self):
-		return round(shannon(self.payload),4)
-
-	def avrg_payload_len(self):
-		return len(self.payload)/self.pkt_count
-
-	def avrg_inter_arrival_time(self):
-		return round(mean(self.inter_arrival_times),4)
 
 	def push_flag_ratio(self):
 		return len([ f for f in self.flags if 'P' in f ]) / float(len(self.flags))
