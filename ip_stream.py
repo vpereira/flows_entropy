@@ -1,5 +1,5 @@
 from scapy.all import *
-from numpy import mean
+from numpy import mean,sum
 from entropy import shannon
 
 class IPStream(object):
@@ -29,6 +29,10 @@ class IPStream(object):
   def avrg_shannon(self):
     return round(mean(self.shannon_pkt),4)
 
+  def chi(self):
+    if self.avrg_shannon() == 0.0: return 0.0
+    return round((sum(self.shannon_pkt) - self.avrg_shannon())**2/self.avrg_shannon()+0.0,4)
+  
   def get_payload(self,pkt):
     if pkt.proto == 1:
         return str(pkt[ICMP].payload)
