@@ -66,4 +66,4 @@ for pkt in packets:
 
 print "flow,entropy,entropy_pkt"
 for idx,flow in enumerate(flows.values()):
-  print "%d,%0.3f,%0.3f" % (idx,flow.shannon(),flow.avrg_shannon())
+  print "%d,%0.3f" % (idx,flow.avrg_shannon())

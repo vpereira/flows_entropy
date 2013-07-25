@@ -1,7 +1,7 @@
 from scapy.all import *
 import scapy
 from numpy import *
-from entropy import kolmogorov, shannon, entropy_ideal
+from entropy import shannon
 
 class IPStream(object):
   def __init__(self,pkt):
@@ -13,23 +13,18 @@ class IPStream(object):
 	self.pkt_count = 1
 	self.len = pkt.len
         self.pkt = pkt
-        self.payload = self.get_payload()
-        self.shannon_pkt = [shannon(self.payload)]
+        self.shannon_pkt = [shannon(self.get_payload())]
+
+  def add(self,pkt):
+	self.pkt_count += 1
+	self.len += pkt.len
+	self.inter_arrival_times.append(pkt.time - self.time)
+	self.pkt = pkt
+	self.shannon_pkt.append(shannon(self.get_payload()))
+
 
   def avrg_len(self):
    return self.len/self.pkt_count
-
-  def kolmogorov(self):
-   return round(kolmogorov(self.payload),4)
-
-  def shannon(self):
-   return round(shannon(self.payload),4)
-
-  def avrg_payload_len(self):
-   return len(self.payload)/self.pkt_count
-
-  def entropy(self):
-    return round(entropy_ideal(len(self.payload)),4)
 
   def avrg_inter_arrival_time(self):
    return round(mean(self.inter_arrival_times),4)

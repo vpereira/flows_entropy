@@ -21,13 +21,8 @@ class TCPStream(IPStream):
 		return len([ f for f in self.flags if 'P' in f ]) / float(len(self.flags))
 
 	def add(self,pkt):
-		self.pkt_count += 1
-		self.len += pkt.len
-		self.inter_arrival_times.append(pkt.time - self.time)
+                super(TCPStream,self).add(pkt)
 		self.flags.append(pkt.sprintf("%TCP.flags%"))
-		self.pkt = pkt
-		self.payload += self.get_payload()
-		self.shannon_pkt.append(shannon(self.get_payload()))
 
 	def remove(self,pkt):
 		raise Exception('Not Implemented')
