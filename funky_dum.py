@@ -65,6 +65,11 @@ for pkt in packets:
 
          if stream: flows[flow_key] = stream
 
-print "flow,entropy,entropy,pvalue"
+print "flow,entropy,chi test,pvalue"
 for idx,flow in enumerate(flows.values()):
-  print "{0},{1!r},{2!r}".format(idx,flow.chi()[0],flow.chi()[1])
+  #filter flows with less than 5 packets
+  #it was just used in this python script. its not how we are doing 
+  #http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html#scipy.stats.chisquare
+  #this filter probably just make sense for TCP, but some how it drops the number of flows without an expressive p-value
+  if flow.pkt_count <=5: continue
+  print "{0},{1},{2!r},{3!r}".format(idx,flow.avrg_shannon(),round(flow.chi()[0],4),flow.chi()[1])

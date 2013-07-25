@@ -8,3 +8,13 @@ Requirements:
   - scipy
   - numpy
   - scapy
+
+
+How to interpret the values:
+
+ from ent(1):
+
+ *We interpret the percentage as the degree to which the sequence tested is suspected of being non-random. 
+ If the percentage is greater than 99% or less than 1%, the sequence is almost certainly not random. 
+ If the percentage is between 99% and 95% or between 1% and 5%, the sequence is suspect. 
+ Percentages between 90% and 95% and 5% and 10% indicate the sequence is “almost suspect”*
