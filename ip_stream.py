@@ -12,15 +12,8 @@ class IPStream(object):
 	self.inter_arrival_times = [0]
 	self.pkt_count = 1
 	self.len = pkt.len
-        if pkt.proto == 1:
-          self.payload = str(pkt[ICMP].payload)
-        elif pkt.proto == 6:
-          self.payload = str(pkt[TCP].payload)
-        elif pkt.proto == 17:
-          self.payload = str(pkt[UDP].payload)
-        else:
-          raise Exception("Protocol Unknown")
-	self.pkt = pkt
+        self.pkt = pkt
+        self.payload = self.get_payload()
 
   def avrg_len(self):
    return self.len/self.pkt_count
@@ -40,5 +33,12 @@ class IPStream(object):
   def avrg_inter_arrival_time(self):
    return round(mean(self.inter_arrival_times),4)
 
-
-
+  def get_payload(self):
+    if self.pkt.proto == 1:
+        return str(self.pkt[ICMP].payload)
+    elif self.pkt.proto == 6:
+        return str(self.pkt[TCP].payload)
+    elif self.pkt.proto == 17:
+        return str(self.pkt[UDP].payload)
+    else:
+        return None
