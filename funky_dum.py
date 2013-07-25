@@ -13,6 +13,7 @@ def create_forward_flow_key(pkt):
         if pkt.proto == 1: pkt.sport = 0;pkt.dport =0;
 	return "%s:%s->%s:%s:%s"%(pkt.src,pkt.sport,pkt.dst,pkt.dport,pkt.proto)
 def create_reverse_flow_key(pkt):
+        #XXX: hack for ICMP
         if pkt.proto == 1: pkt.sport = 0;pkt.dport =0;
 	return "%s:%s->%s:%s:%s"%(pkt.dst,pkt.dport,pkt.src,pkt.sport,pkt.proto)
 def create_flow_keys(pkt):
@@ -63,6 +64,6 @@ for pkt in packets:
 
          if stream: flows[flow_key] = stream
 
-print "flow,entropy,entropy_ideal"
+print "flow,entropy,entropy_pkt"
 for idx,flow in enumerate(flows.values()):
-  print "%d,%0.3f,%0.3f" % (idx,flow.shannon(),flow.entropy())
+  print "%d,%0.3f,%0.3f" % (idx,flow.shannon(),flow.avrg_shannon())

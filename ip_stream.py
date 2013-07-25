@@ -14,6 +14,7 @@ class IPStream(object):
 	self.len = pkt.len
         self.pkt = pkt
         self.payload = self.get_payload()
+        self.shannon_pkt = [shannon(self.payload)]
 
   def avrg_len(self):
    return self.len/self.pkt_count
@@ -32,6 +33,9 @@ class IPStream(object):
 
   def avrg_inter_arrival_time(self):
    return round(mean(self.inter_arrival_times),4)
+
+  def avrg_shannon(self):
+    return round(mean(self.shannon_pkt),4)
 
   def get_payload(self):
     if self.pkt.proto == 1:

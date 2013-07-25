@@ -27,6 +27,7 @@ class TCPStream(IPStream):
 		self.flags.append(pkt.sprintf("%TCP.flags%"))
 		self.pkt = pkt
 		self.payload += self.get_payload()
+		self.shannon_pkt.append(shannon(self.get_payload()))
 
 	def remove(self,pkt):
 		raise Exception('Not Implemented')
