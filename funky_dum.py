@@ -60,6 +60,6 @@ for pkt in packets:
 
          if stream: flows[flow_key] = stream
 
-print "flow,entropy"
+print "flow,entropy,entropy_ideal"
 for idx,flow in enumerate(flows.values()):
-  print "%d,%0.3f" % (idx,flow.shannon())
+  print "%d,%0.3f,%0.3f" % (idx,flow.shannon(),flow.entropy())

@@ -5,18 +5,10 @@ from ip_stream import *
 #2) Its an TCP packet
 class TCPStream(IPStream):
 	def __init__(self,pkt):
-		self.src = pkt.src 
-		self.dst = pkt.dst
+                super(TCPStream,self).__init__(pkt)
 		self.flags = [pkt.sprintf("%TCP.flags%")]
 		self.sport = pkt.sport
 		self.dport = pkt.dport        
-		self.time = pkt.time
-		self.proto = pkt.proto
-		self.inter_arrival_times = [0]
-		self.pkt_count = 1
-		self.len = pkt.len
-		self.payload = str(pkt[TCP].payload)
-		self.pkt = pkt
 
         def unique_flags(self):
 	    seen = set()

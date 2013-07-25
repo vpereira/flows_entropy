@@ -3,19 +3,12 @@ from ip_stream import *
 #We are assuming:
 #1) Its an IP packet
 #2) Its an ICMP packet
+#XXX icmp type and code as flow information?
 class ICMPStream(IPStream):
 	def __init__(self,pkt):
-		self.src = pkt.src 
-		self.dst = pkt.dst
+                super(ICMPStream,self).__init__(pkt)
 		self.sport = 0
 		self.dport = 0        
-		self.time = pkt.time
-		self.proto = pkt.proto
-		self.inter_arrival_times = [0]
-		self.pkt_count = 1
-		self.len = pkt.len
-		self.payload = str(pkt[ICMP].payload)
-		self.pkt = pkt
 
 	def add(self,pkt):
 		self.pkt_count += 1

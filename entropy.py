@@ -24,6 +24,13 @@ def shannon (data):
             ent = ent + freq * log(freq, 2)
     return -ent if ent else 0.00
 
+#Calculates the ideal Shannon entropy of payload with a specific len
+def entropy_ideal(length):
+    if length == 0: return 0.0
+    prob = 1.0 / length + 0.0
+    return -1.0 * length * prob * log(prob) / log(2.0)
+
+
 # Reasonable approximation to the Kolmogorov Complexity
 # using the compression rate
 # ref.: http://lorenzoriano.wordpress.com/tag/python/

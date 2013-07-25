@@ -5,18 +5,9 @@ from ip_stream import *
 #2) Its an UDP packet
 class UDPStream(IPStream):
 	def __init__(self,pkt):
-		self.src = pkt.src 
-		self.dst = pkt.dst
-		self.sport = pkt.sport
+                super(UDPStream,self).__init__(pkt)
+	        self.sport = pkt.sport
 		self.dport = pkt.dport        
-		self.time = pkt.time
-		self.proto = pkt.proto
-		self.inter_arrival_times = [0]
-		self.pkt_count = 1
-		self.len = pkt.len
-		self.payload = str(pkt[UDP].payload)
-		self.pkt = pkt
-
 	def add(self,pkt):
 		self.pkt_count += 1
 		self.len += pkt.len
