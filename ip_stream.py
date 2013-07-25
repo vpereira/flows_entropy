@@ -1,6 +1,5 @@
 from scapy.all import *
-import scapy
-from numpy import *
+from numpy import mean
 from entropy import shannon
 
 class IPStream(object):
