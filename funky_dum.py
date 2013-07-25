@@ -7,6 +7,7 @@ from tcp_stream  import TCPStream
 from udp_stream  import UDPStream
 from icmp_stream import ICMPStream
 import argparse
+from scipy.stats import chisquare
 
 def create_forward_flow_key(pkt):
         #XXX: hack for ICMP
@@ -64,6 +65,6 @@ for pkt in packets:
 
          if stream: flows[flow_key] = stream
 
-print "flow,entropy,entropy_pkt"
+print "flow,entropy,entropy_pkt,scipy_stats"
 for idx,flow in enumerate(flows.values()):
-  print "%d,%0.3f,%0.3f" % (idx,flow.avrg_shannon(),flow.chi())
+  print "{0},{1!r},{2!r}".format(idx,flow.chi()[0],flow.chi()[1])

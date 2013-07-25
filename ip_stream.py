@@ -1,6 +1,7 @@
 from scapy.all import *
 from numpy import mean,sum
 from entropy import shannon
+from scipy.stats import chisquare
 
 class IPStream(object):
   def __init__(self,pkt):
@@ -30,8 +31,8 @@ class IPStream(object):
     return round(mean(self.shannon_pkt),4)
 
   def chi(self):
-    if self.avrg_shannon() == 0.0: return 0.0
-    return round((sum(self.shannon_pkt) - self.avrg_shannon())**2/self.avrg_shannon()+0.0,4)
+    if self.avrg_shannon() == 0.0: return (0.0,0.0)
+    return chisquare(self.shannon_pkt)
   
   def get_payload(self,pkt):
     if pkt.proto == 1:
