@@ -46,12 +46,15 @@ for pkt in packets:
          #filtering IP,TCP an UDP
          if not IP in pkt: continue
          if not pkt[IP].proto in [1,6,17]: continue
-
+         #XXX HACK get payload layered length on top of IP. the if above filter out protocols other than ICMP, TCP and ICMP
+         #packets without payload shouldnt be counted, otherwise it is a problem for entropy and chitest
+         if not len(pkt[IP].payload.payload): continue
 	 flow_tuple = reverse_flow_tuple = key_to_search = None
 	 flow_tuple,reverse_flow_tuple = create_flow_keys(pkt[IP])
 	 flow_key,stream = lookup_stream(flow_tuple,reverse_flow_tuple)
 
 	 if stream is None:
+           #XXX: it doesnt belong to here
            if pkt[IP].proto == 6:
 	       stream = TCPStream(pkt[IP])
            elif pkt[IP].proto == 17:
@@ -65,11 +68,11 @@ for pkt in packets:
 
          if stream: flows[flow_key] = stream
 
-print "flow,entropy,chi test,pvalue"
+print "flow,entropy_mean,entropy_sd,pvalue"
 for idx,flow in enumerate(flows.values()):
   #filter flows with less than 5 packets
   #it was just used in this python script. its not how we are doing 
   #http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html#scipy.stats.chisquare
   #this filter probably just make sense for TCP, but some how it drops the number of flows without an expressive p-value
   if flow.pkt_count <=5: continue
-  print "{0},{1},{2!r},{3!r}".format(idx,flow.avrg_shannon(),round(flow.chi()[0],4),flow.chi()[1])
+  print "{0},{1},{2!r},{3!r}".format(idx,round(flow.entropy_mean(),5),round(flow.entropy_sd(),5),round(flow.chi()[1],5))
