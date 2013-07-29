@@ -7,23 +7,22 @@ def shannon (data):
     # in the dataset and if this frequency is not null we use it for the
     # entropy calculation
 
-    if data == None or data == '':
-    	data = ' '
-    	
-    data = list(bytearray(data))
+   dataSize = len(data)
+   ent = 0.0
+   freq={}
+   for c in data:
+      if freq.has_key(c):
+         freq[c] += 1
+      else:
+         freq[c] = 1
 
-    dataSize = len(data)
-
-    ent = 0.0
-
-    # a byte can take 256 values from 0 to 255. Here we are looping 256 times
-    # to determine if each possible value of a byte is in the dataset
-    for i in range(256):
-        freq = float(data.count(i))/dataSize
-        if freq > 0:    # to avoid an error for log(0)
-            ent = ent + freq * log(freq, 2)
-    # we divide it by 8.0 to keep it between 0.0 - 1.0
-    return -ent/8.0 if ent else 0.00
+   # a byte can take 256 values from 0 to 255. Here we are looping 256 times
+   # to determine if each possible value of a byte is in the dataset
+   for key in freq.keys():
+      f = float(freq[key])/dataSize+0.0
+      if f > 0: # to avoid an error for log(0)
+         ent = ent + f * log(f, 2)
+   return -ent  if ent else 0.00
 
 #Calculates the ideal Shannon entropy of payload with a specific len
 def entropy_ideal(length):

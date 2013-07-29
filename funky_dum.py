@@ -8,6 +8,7 @@ from udp_stream  import UDPStream
 from icmp_stream import ICMPStream
 import argparse
 from scipy.stats import chisquare
+from entropy import shannon
 
 def create_forward_flow_key(pkt):
         #XXX: hack for ICMP
@@ -75,4 +76,4 @@ for idx,flow in enumerate(flows.values()):
   #http://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.chisquare.html#scipy.stats.chisquare
   #this filter probably just make sense for TCP, but some how it drops the number of flows without an expressive p-value
   if flow.pkt_count <=5: continue
-  print "{0},{1},{2!r},{3!r}".format(idx,round(flow.entropy_mean(),5),round(flow.entropy_sd(),5),round(flow.chi()[1],5))
+  print "{0},{1},{2!r},{3!r}".format(idx,round(flow.entropy_mean(),5),round(flow.entropy_sd(),5),flow.chi())
