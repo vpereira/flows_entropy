@@ -16,7 +16,7 @@ parse a pcap in flows, calculate byte frequencies, with a 256 binnen
 histogrn and shannon for every flow. Apply a chi square tes per flow following
 the formula:
 
-![chi]: (http://www.ibm.com/developerworks/web/library/wa-phpolla/chi_formula.jpg)
+![chi](http://www.ibm.com/developerworks/web/library/wa-phpolla/chi_formula.jpg)
 
 where O are the packet payload entropy, the E is the
 expected frequency (1/256 * packet size)  and r is the number of packets
