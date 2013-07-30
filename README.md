@@ -19,8 +19,8 @@ the formula:
 ![chi](http://www2.cedarcrest.edu/academic/bio/hale/biostat/session22links/equation.jpg)
 
 where O are the packet payload entropy, the E is the
-expected frequency (1/256 * packet size)  and r is the number of packets
-per flow. Degrees of freedom is r - 1 
+expected frequency (1/256 * packet size)  and k is the number of packets
+per flow. Degrees of freedom is k - 1 
 
 how to interpret the results:
 
